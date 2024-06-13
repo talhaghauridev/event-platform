@@ -1,12 +1,12 @@
 import Events from "@/components/shared/Events";
 import Hero from "@/components/shared/Hero";
-import React from "react";
+import { SearchParamProps } from "@/types";
 
-const page = () => {
+const page = (searchParams: SearchParamProps) => {
   return (
     <>
       <Hero />
-      <Events />
+      <Events searchParams={searchParams} />
     </>
   );
 };

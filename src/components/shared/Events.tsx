@@ -1,6 +1,11 @@
+import { SearchParamProps } from "@/types";
 import React from "react";
 
-const Events = () => {
+const Events = ({ searchParams }: { searchParams: SearchParamProps }) => {
+  console.log({
+    eventSearchParams: searchParams,
+  });
+
   return (
     <section id="events" className="wrapper my-8 flex flex-col gap-8 md:gap-12">
       <h2 className="h2-bold">
