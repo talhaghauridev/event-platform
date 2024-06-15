@@ -1,35 +1,33 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { eventDefaultValues } from "@/constants";
-import Dropdown from "../shared/Dropdown";
 import { Textarea } from "@/components/ui/textarea";
-import { FileUploader } from "../shared/FileUploader";
-import { useState } from "react";
-import Image from "next/image";
-import DatePicker from "react-datepicker";
-import { useUploadThing } from "@/lib/uploadthing";
-import "react-datepicker/dist/react-datepicker.css";
-import { Checkbox } from "../ui/checkbox";
-import { useRouter } from "next/navigation";
+import { eventDefaultValues } from "@/constants";
 import { createEvent } from "@/lib/actions/event.actions";
 import { IEvent } from "@/lib/database/models/event.model";
+import { useUploadThing } from "@/lib/uploadthing";
 import {
   EventVaidation,
   EventValidationType,
 } from "@/lib/validations/event.validations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
+import Dropdown from "../shared/Dropdown";
+import { FileUploader } from "../shared/FileUploader";
+import { Checkbox } from "../ui/checkbox";
 type EventFormProps = {
   userId: string;
   type: "Create" | "Update";
@@ -52,7 +50,7 @@ const EventForm = ({ type, userId, event, eventId }: EventFormProps) => {
   const form = useForm({
     defaultValues: initialValues,
     resolver: zodResolver(EventVaidation),
-    mode: "onTouched",
+    mode: "onBlur",
   });
   async function onSubmit(values: EventValidationType) {
     let uploadedImageUrl = values.imageUrl;

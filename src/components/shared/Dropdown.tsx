@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -26,30 +28,31 @@ import {
 
 type DropdownProps = {
   value?: string;
-  onChangeHandler?: () => void;
+  onChangeHandler?: (value: string) => void;
 };
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
-  const handleAddCategory = () => {
+  const handleAddCategory = useCallback(() => {
     createCategory({
       categoryName: newCategory.trim(),
     }).then((category) => {
       setCategories((prevState) => [...prevState, category]);
     });
-  };
+  }, [newCategory]);
+
+  const getCategories = useCallback(async () => {
+    const categoryList = await getAllCategories();
+    if (categoryList) {
+      setCategories(categoryList as ICategory[]);
+    }
+  }, []);
 
   useEffect(() => {
-    const getCategories = useCallback(async () => {
-      const categoryList = await getAllCategories();
-
-      categoryList && setCategories(categoryList as ICategory[]);
-    }, []);
-
     getCategories();
-  }, []);
+  }, [getCategories]);
 
   return (
     <Select onValueChange={onChangeHandler} defaultValue={value}>

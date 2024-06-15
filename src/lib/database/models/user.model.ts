@@ -3,7 +3,7 @@ import { Document, Model, Schema, model, models } from "mongoose";
 export interface IUser extends Document {
   clerkId: string;
   email: string;
-  username: string;
+  username?: string;
   firstName: string;
   lastName: string;
   photo: string;
@@ -22,7 +22,6 @@ const UserSchema = new Schema({
   },
   username: {
     type: String,
-    required: true,
     unique: true,
   },
   firstName: {
@@ -39,6 +38,6 @@ const UserSchema = new Schema({
   },
 });
 
-const User: Model<IUser> = models.User || model("User", UserSchema);
+const User: Model<IUser> = models?.User || model("User", UserSchema);
 
 export default User;
