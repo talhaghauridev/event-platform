@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Select,
   SelectContent,
@@ -8,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ICategory } from "@/lib/database/models/category.model";
-import { startTransition, useCallback, useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,31 +26,30 @@ import {
 
 type DropdownProps = {
   value?: string;
-  onChangeHandler?: (value: string) => void;
+  onChangeHandler?: () => void;
 };
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
-  const handleAddCategory = useCallback(() => {
+  const handleAddCategory = () => {
     createCategory({
       categoryName: newCategory.trim(),
     }).then((category) => {
       setCategories((prevState) => [...prevState, category]);
     });
-  }, [newCategory]);
-
-  const getCategories = useCallback(async () => {
-    const categoryList = await getAllCategories();
-    if (categoryList) {
-      setCategories(categoryList as ICategory[]);
-    }
-  }, []);
+  };
 
   useEffect(() => {
+    const getCategories = async () => {
+      const categoryList = await getAllCategories();
+
+      categoryList && setCategories(categoryList as ICategory[]);
+    };
+
     getCategories();
-  }, [getCategories]);
+  }, []);
 
   return (
     <Select onValueChange={onChangeHandler} defaultValue={value}>

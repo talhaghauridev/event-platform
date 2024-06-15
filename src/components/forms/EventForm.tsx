@@ -50,7 +50,7 @@ const EventForm = ({ type, userId, event, eventId }: EventFormProps) => {
   const form = useForm({
     defaultValues: initialValues,
     resolver: zodResolver(EventVaidation),
-    mode: "onBlur",
+    mode: "onTouched",
   });
   async function onSubmit(values: EventValidationType) {
     let uploadedImageUrl = values.imageUrl;
@@ -103,7 +103,6 @@ const EventForm = ({ type, userId, event, eventId }: EventFormProps) => {
     //     console.log(error);
     //   }
     // }
-    console.log(values);
   }
 
   return (
