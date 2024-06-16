@@ -1,9 +1,18 @@
 import { SearchParamProps } from "@/types";
 import React from "react";
+import Collection from "./Collection";
+import { getAllEvents } from "@/lib/actions/event.actions";
 
-const Events = ({ searchParams }: { searchParams: SearchParamProps }) => {
-  console.log({
-    eventSearchParams: searchParams,
+const Events = async ({ searchParams }: { searchParams: SearchParamProps }) => {
+  const page = Number(searchParams.page) || 1;
+  const searchText = (searchParams.query as string) || "";
+  const category = (searchParams.category as string) || "";
+
+  const events = await getAllEvents({
+    query: searchText,
+    category,
+    page,
+    limit: 6,
   });
 
   return (
@@ -17,15 +26,15 @@ const Events = ({ searchParams }: { searchParams: SearchParamProps }) => {
         <CategoryFilter /> */}
       </div>
 
-      {/* <Collection
+      <Collection
         data={events?.data}
         emptyTitle="No Events Found"
         emptyStateSubtext="Come back later"
         collectionType="All_Events"
         limit={6}
-        page={page}
+        page={1}
         totalPages={events?.totalPages}
-      /> */}
+      />
     </section>
   );
 };

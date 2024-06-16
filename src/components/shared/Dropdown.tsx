@@ -26,7 +26,7 @@ import {
 
 type DropdownProps = {
   value?: string;
-  onChangeHandler?: () => void;
+  onChangeHandler?: (value: string) => void;
 };
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {

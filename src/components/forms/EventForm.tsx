@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { eventDefaultValues } from "@/constants";
-import { createEvent } from "@/lib/actions/event.actions";
+import { createEvent, updateEvent } from "@/lib/actions/event.actions";
 import { IEvent } from "@/lib/database/models/event.model";
 import { useUploadThing } from "@/lib/uploadthing";
 import {
@@ -82,27 +82,27 @@ const EventForm = ({ type, userId, event, eventId }: EventFormProps) => {
       }
     }
 
-    // if (type === "Update") {
-    //   if (!eventId) {
-    //     router.back();
-    //     return;
-    //   }
+    if (type === "Update") {
+      if (!eventId) {
+        router.back();
+        return;
+      }
 
-    //   try {
-    //     const updatedEvent = await updateEvent({
-    //       userId,
-    //       event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-    //       path: `/events/${eventId}`,
-    //     });
+      try {
+        const updatedEvent = await updateEvent({
+          userId,
+          event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
+          path: `/events/${eventId}`,
+        });
 
-    //     if (updatedEvent) {
-    //       form.reset();
-    //       router.push(`/events/${updatedEvent._id}`);
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
+        if (updatedEvent) {
+          form.reset();
+          router.push(`/events/${updatedEvent._id}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
@@ -135,7 +135,7 @@ const EventForm = ({ type, userId, event, eventId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <Dropdown
-                    onChangeHandler={field.onChange}
+                    onChangeHandler={(value) => field.onChange(value)}
                     value={field.value}
                   />
                 </FormControl>
