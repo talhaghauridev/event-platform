@@ -13,10 +13,12 @@ export interface IEvent extends Document {
   price: string;
   isFree: boolean;
   url: string;
-  category: Schema.Types.ObjectId | Pick<ICategory, "_id" | "name">;
-  orginizer:
-    | Schema.Types.ObjectId
-    | Pick<IUser, "_id" | "lastName" | "firstName">;
+  category: Pick<ICategory, "_id" | "name">;
+  organizer: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
 }
 
 const EventSchema = new Schema({
@@ -60,7 +62,7 @@ const EventSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Category",
   },
-  orginizer: {
+  organizer: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
