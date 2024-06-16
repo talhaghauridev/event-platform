@@ -1,24 +1,24 @@
 "use server";
 
-import Stripe from "stripe";
 import {
   CheckoutOrderParams,
   CreateOrderParams,
   GetOrdersByEventParams,
   GetOrdersByUserParams,
 } from "@/types";
-import { redirect } from "next/navigation";
-import { handleError } from "../utils";
-import Order from "../database/models/order.model";
-import Event from "../database/models/event.model";
 import { ObjectId } from "mongodb";
+import { redirect } from "next/navigation";
+import Stripe from "stripe";
+import Event from "../database/models/event.model";
+import Order from "../database/models/order.model";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
+import { handleError } from "../utils";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-  const price = order.isFree ? 0 : Number(order.price) * 100;
+  const price = Number(order.isFree ? 0 * 100 : Number(order.price) * 100);
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -39,6 +39,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
         buyerId: order.buyerId,
       },
       mode: "payment",
+      payment_method_types: ["card"],
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });

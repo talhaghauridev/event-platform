@@ -1,5 +1,4 @@
-import { Model, Schema, model, models, Document } from "mongoose";
-import { IUser } from "./user.model";
+import { Document, Model, Schema, model, models } from "mongoose";
 import { ICategory } from "./category.model";
 
 export interface IEvent extends Document {

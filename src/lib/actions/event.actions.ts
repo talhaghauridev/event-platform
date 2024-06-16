@@ -1,18 +1,18 @@
 "use server";
-import { connectToDatabase } from "../database/mongoose";
+import Category from "@/lib/database/models/category.model";
 import Event from "@/lib/database/models/event.model";
 import User from "@/lib/database/models/user.model";
-import Category from "@/lib/database/models/category.model";
 import { handleError } from "@/lib/utils";
 import {
   CreateEventParams,
-  UpdateEventParams,
   DeleteEventParams,
   GetAllEventsParams,
   GetEventsByUserParams,
   GetRelatedEventsByCategoryParams,
+  UpdateEventParams,
 } from "@/types";
 import { revalidatePath } from "next/cache";
+import { connectToDatabase } from "../database/mongoose";
 
 const getCategoryByName = async (name: string) => {
   return Category.findOne({ name: { $regex: name, $options: "i" } });

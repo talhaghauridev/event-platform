@@ -1,8 +1,8 @@
 "use server";
 import { CreateCategoryParams } from "@/types";
-import { handleError } from "../utils";
-import { connectToDatabase } from "../database/mongoose";
 import Category from "../database/models/category.model";
+import { connectToDatabase } from "../database/mongoose";
+import { handleError } from "../utils";
 
 export async function createCategory({ categoryName }: CreateCategoryParams) {
   try {

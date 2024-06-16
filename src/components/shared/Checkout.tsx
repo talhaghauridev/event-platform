@@ -1,25 +1,37 @@
+"use client";
 import React, { useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { IEvent } from "@/lib/database/models/event.model";
 import { Button } from "../ui/button";
 import { checkoutOrder } from "@/lib/actions/order.actions";
-
-loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+import { useToast } from "@/components/ui/use-toast";
 
 const Checkout = ({ event, userId }: { event: IEvent; userId: string }) => {
+  const { toast } = useToast();
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
+    loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  }, []);
+
+  useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     if (query.get("success")) {
-      console.log("Order placed! You will receive an email confirmation.");
+      toast({
+        title: "Order placed!",
+        description: "You will receive an email confirmation",
+        duration: 5000,
+        className: "success-toast",
+      });
     }
 
     if (query.get("canceled")) {
-      console.log(
-        "Order canceled -- continue to shop around and checkout when you’re ready."
-      );
+      toast({
+        title: "Order canceled!",
+        description: "Continue to shop around and checkout when you're ready",
+        duration: 5000,
+        className: "error-toast",
+      });
     }
-  }, []);
+  }, [toast]);
 
   const onCheckout = async () => {
     const order = {

@@ -1,11 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { connectToDatabase } from "@/lib/database/mongoose";
-import User from "@/lib/database/models/user.model";
-import Order from "@/lib/database/models/order.model";
 import Event from "@/lib/database/models/event.model";
+import Order from "@/lib/database/models/order.model";
+import User from "@/lib/database/models/user.model";
+import { connectToDatabase } from "@/lib/database/mongoose";
 import { handleError } from "@/lib/utils";
+import { revalidatePath } from "next/cache";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
 
