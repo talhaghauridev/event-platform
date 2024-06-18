@@ -2,8 +2,14 @@ import { SearchParamProps } from "@/types";
 import React from "react";
 import Collection from "./Collection";
 import { getAllEvents } from "@/lib/actions/event.actions";
+import Search from "./Search";
+import CategoryFilter from "./CategoryFilter";
 
-const Events = async ({ searchParams }: { searchParams: SearchParamProps }) => {
+const Events = async ({
+  searchParams,
+}: {
+  searchParams: SearchParamProps["searchParams"];
+}) => {
   const page = Number(searchParams.page) || 1;
   const searchText = (searchParams.query as string) || "";
   const category = (searchParams.category as string) || "";
@@ -22,8 +28,8 @@ const Events = async ({ searchParams }: { searchParams: SearchParamProps }) => {
       </h2>
 
       <div className="flex w-full flex-col gap-5 md:flex-row">
-        {/* <Search />
-        <CategoryFilter /> */}
+        <Search />
+        <CategoryFilter />
       </div>
 
       <Collection
